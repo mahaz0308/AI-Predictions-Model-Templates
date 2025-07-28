@@ -2,6 +2,33 @@
 
 Welcome to the Sports project, this project lays out the template for sports predictions.
 
+## Prerequisites
+
+Before getting started, make sure your system meets these requirements:
+
+### Required Software
+* **Python:** Version 3.10 or higher - [Download Python](https://www.python.org/downloads/)
+* **Visual Studio Code:** Latest version - [Download VS Code](https://code.visualstudio.com/download)
+
+### Docker Desktop Requirements
+* **Windows:**
+  - Windows 10/11 64-bit: Pro, Enterprise, or Education (Build 16299 or later)
+  - WSL 2 feature enabled
+  - 4GB system RAM minimum
+  - BIOS-level hardware virtualization enabled
+  - [Download Docker Desktop for Windows](https://docs.docker.com/desktop/windows/install/)
+
+* **macOS:**
+  - macOS version 11 or newer (Intel or Apple Silicon)
+  - At least 4GB of RAM
+  - [Download Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)
+
+* **Linux:**
+  - 64-bit kernel and CPU support for virtualization
+  - systemd init system
+  - At least 4GB of RAM
+  - [Download Docker Desktop for Linux](https://docs.docker.com/desktop/linux/install/)
+
 ### Fire Up Your Model with Docker!
 Time to unleash your model! In your *same* terminal, run these commands:
 
@@ -27,7 +54,7 @@ If all is well, you'll see a happy message like this:
 }
 ```
 
-You can also see the docs at: `http://localhost:8000/health/docs`
+You can also see the docs at: `http://localhost:8000/docs`
 
 Now, let's make some predictions!
 

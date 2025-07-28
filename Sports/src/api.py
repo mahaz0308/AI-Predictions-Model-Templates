@@ -58,7 +58,7 @@ class SportsPredictionAPI:
             logger.info(
                 f"INFO: Retrain endpoint called at {datetime.datetime.now().isoformat()}"
             )
-            retrain_status = await self.ai_model.retrain()
+            retrain_status = self.ai_model.retrain()
 
             if retrain_status.get("status") == "success":
                 return JSONResponse(
