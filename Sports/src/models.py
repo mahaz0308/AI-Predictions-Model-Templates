@@ -85,33 +85,33 @@ class AIModel:
         5. Saving the new model artifact.
         6. Updating the loaded model in memory (or triggering a reload).
         """
-        print("INFO: Starting AI model retraining process...")
+        logger.info("INFO: Starting AI model retraining process...")
         try:
             # Simulate data sourcing
-            print("INFO: Sourcing historical or new data...")
+            logger.info("INFO: Sourcing historical or new data...")
             time.sleep(2)  # Simulate network/DB call
 
             # Simulate data preprocessing
-            print("INFO: Preprocessing data...")
+            logger.info("INFO: Preprocessing data...")
             time.sleep(1)
 
             # Simulate model training
-            print("INFO: Training new model version...")
+            logger.info("INFO: Training new model version...")
             time.sleep(5)  # This could be a long-running process
 
             # Simulate model evaluation (e.g., checking performance metrics)
-            print("INFO: Evaluating new model...")
+            logger.info("INFO: Evaluating new model...")
             time.sleep(1)
 
             # Simulate saving the new model artifact
-            print("INFO: Saving new model artifact...")
+            logger.info("INFO: Saving new model artifact...")
             # In a real scenario, you'd save to a persistent volume, cloud storage (GCS, S3), etc.
             time.sleep(0.5)
 
             # Update the in-memory model (or trigger a reload mechanism)
             self._load_model()  # Reloads the dummy model for this example
             self.last_trained_at = time.time()
-            print(
+            logger.info(
                 f"INFO: AI model retraining complete. New model loaded at {time.ctime(self.last_trained_at)}"
             )
             return {
@@ -120,5 +120,5 @@ class AIModel:
                 "last_trained_at": time.ctime(self.last_trained_at),
             }
         except Exception as e:
-            print(f"ERROR: Model retraining failed: {e}")
+            logger.error(f"ERROR: Model retraining failed: {e}")
             return {"status": "error", "message": f"Model retraining failed: {str(e)}"}

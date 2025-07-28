@@ -32,7 +32,7 @@ Let's bring the project to your computer!
 Now, paste these commands into your Git Bash terminal and hit Enter after each:
 
 1.  **Clone the project:** `git clone https://github.com/Vexalabs/AI-Predictions-Model-Templates.git`
-2.  **Step into your new project:** `cd SportModel`
+2.  **Step into your new project:** `cd AI-Predictions-Model-Templates`
 
 Almost there! Let's open the project files:
 
