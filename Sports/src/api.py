@@ -30,7 +30,12 @@ class SportsPredictionAPI:
         """
         Sets up the API routes.
         """
-        @self.app.post("/predict", response_model=PredictionResponse, status_code=status.HTTP_200_OK)
+
+        @self.app.post(
+            "/predict",
+            response_model=PredictionResponse,
+            status_code=status.HTTP_200_OK,
+        )
         async def predict_outcome(request: PredictionRequest):
             """
             Predicts the outcome of a sports match based on provided team and odds data.
@@ -70,7 +75,10 @@ class SportsPredictionAPI:
             else:
                 raise HTTPException(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                    detail={"message": "Model retraining failed.", "details": retrain_status},
+                    detail={
+                        "message": "Model retraining failed.",
+                        "details": retrain_status,
+                    },
                 )
 
         @self.app.get("/health")
@@ -89,4 +97,3 @@ class SportsPredictionAPI:
         Returns the FastAPI application instance.
         """
         return self.app
-    
