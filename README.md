@@ -43,7 +43,7 @@ Awesome, You're set! Now you can navigate into one of the specific templates and
 
 Good Luck!
 
-### Publish My Model
+### Publish Your Model
 Once you have finished fine tuning you model and you are ready to publish it you can create a new branch on the gir Repo and AI Predictions will deploy it for you.
 
 1. Create a new branch
@@ -57,3 +57,5 @@ Once you have finished fine tuning you model and you are ready to publish it you
 3. Let AI Predictions deploy your model
 
 4. Check back to see your deployed model: (AI Predictions)[https://aipredictions.ai/]
+
+5. Track your model's performance 
