@@ -58,4 +58,5 @@ Once you have finished fine tuning you model and you are ready to publish it you
 
 4. Check back to see your deployed model: (AI Predictions)[https://aipredictions.ai/]
 
-5. Track your model's performance 
+5. Track your model's performance on the platform
+
