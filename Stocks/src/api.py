@@ -14,15 +14,15 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class SportsPredictionAPI:
+class PredictionAPI:
     def __init__(self):
         # Initialize the AI Model
         self.ai_model = AIModel()
 
         # Initialize FastAPI app
         self.app = FastAPI(
-            title="Sports Prediction API",
-            description="REST API wrapping a predictive model for predicting sports outcomes and model retraining.",
+            title="Stocks Prediction API",
+            description="REST API wrapping a predictive model.",
             version="0.1.0",
         )
         self._setup_routes()
@@ -39,7 +39,7 @@ class SportsPredictionAPI:
         )
         async def predict_outcome(request: PredictionRequest):
             """
-            Predicts the outcome of a sports match based on provided team and odds data.
+            Provides the prediction.
             """
             try:
                 logger.info(
@@ -94,8 +94,8 @@ class SportsPredictionAPI:
             }
         
         @self.app.get("/documentation")
-        async def get_documentation():  
-            # Reads the documentation.json file and returns it oin this enbdpount
+        async def get_documentation():
+            # Reads the documentation.json file and returns it on this endpoint
             with open("documentation.json", "r") as file:
                 documentation = json.load(file) 
             return JSONResponse(content=documentation)
