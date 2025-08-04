@@ -1,6 +1,6 @@
 # Sports
 
-Welcome to the Sports project, this project lays out the template for sports predictions.
+Welcome to the Stocks project, this project lays out the template for stock predictions.
 
 ## Prerequisites
 
@@ -32,9 +32,9 @@ Before getting started, make sure your system meets these requirements:
 ### Fire Up Your Model with Docker!
 Time to unleash your model! In your *same* terminal, run these commands:
 
-1. **Change directory into the sports template:** `cd Sports` 
-1. **Build the magic image:** `docker build -t sports-predictor .`
-2. **Run your new image:** `docker run -p 8000:8000 sports-predictor`
+1. **Change directory into the sports template:** `cd Stocks` 
+1. **Build the magic image:** `docker build -t stocks-predictor .`
+2. **Run your new image:** `docker run -p 8000:8000 stocks-predictor`
 
 *Keep this terminal running! It's busy making predictions!*
 
@@ -65,14 +65,41 @@ Now, let's make some predictions!
     curl -X POST "http://localhost:8000/predict" \
          -H "Content-Type: application/json" \
          -d '{
-             "home_team": "Lions",
-             "away_team": "Sharks",
-             "home_team_odds_avg": 1.75,
-             "away_team_odds_avg": 2.20
+             "name": "aapl",
+             "date": "2025-04-10",
+             "current_price": 202.38
            }'
     ```
 
     Get ready for your first prediction! How exciting is that?!
+
+The response should be formatted as follows.
+
+```json
+{
+  "4_hours": {
+    "price_prediction": 61000.00,
+    "price_up_down": "up",
+    "percentage_change": 1.67
+  },
+  "24_hours": {
+    "price_prediction": 62000.00,
+    "price_up_down": "up",
+    "percentage_change": 3.33
+  },
+  "2_days": {
+    "price_prediction": 63000.00,
+    "price_up_down": "up",
+    "percentage_change": 5.00
+  },
+  "7_days": {
+    "price_prediction": 65000.00,
+    "price_up_down": "up",
+    "percentage_change": 8.33
+  }
+}
+
+```
 
 ---
 
