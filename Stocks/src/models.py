@@ -38,45 +38,30 @@ class AIModel:
         """
 
         logger.info(f"INFO: Making prediction with data: {data}")
-        home_team = data.get("home_team", "Home Team")
-        away_team = data.get("away_team", "Away Team")
-
-        winner_options = [home_team, away_team]
-        over_under_options = [
-            "Over 2.5",
-            "Under 2.5",
-            "Over 3.5",
-            "Under 3.5",
-            None,
-        ]  # Spread can be null
-        spread_options = [f"{home_team} -1.5", f"{away_team} +0.5", None]
-
-        # Generate dummy predictions
-        winner = random.choice(winner_options)
-        winner_confidence = round(random.uniform(50, 99), 1) if winner else None
-        winner_odds = round(random.uniform(1.5, 3.0), 2) if winner else None
-
-        over_under = random.choice(over_under_options)
-        over_under_confidence = round(random.uniform(50, 99), 1) if over_under else None
-        over_under_odds = round(random.uniform(1.6, 2.2), 2) if over_under else None
-
-        spread = random.choice(spread_options)
-        spread_confidence = round(random.uniform(50, 99), 1) if spread else None
-        spread_odds = round(random.uniform(1.7, 2.5), 2) if spread else None
-        if spread is None:
-            spread_odds = None
 
         return {
-            "winner": winner,
-            "winner_confidence_pct": winner_confidence,
-            "winner_best_bet_odds": winner_odds,
-            "over_under": over_under,
-            "over_under_confidence_pct": over_under_confidence,
-            "over_under_best_bet_odds": over_under_odds,
-            "spread": spread,
-            "spread_confidence_pct": spread_confidence,
-            "spread_best_bet_odds": spread_odds,  # This can be null as per spec
+            "4_hours": {
+                "price_prediction": 281.00,
+                "price_up_down": "up",
+                "percentage_change": 1.67
+            },
+            "24_hours": {
+                "price_prediction": 282.43,
+                "price_up_down": "up",
+                "percentage_change": 3.33
+            },
+            "2_days": {
+                "price_prediction": 280.97,
+                "price_up_down": "down",
+                "percentage_change": -0.86
+            },
+            "7_days": {
+                "price_prediction": 284.0,
+                "price_up_down": "up",
+                "percentage_change": 6.93
+            }
         }
+
 
     def retrain(self):
         """
