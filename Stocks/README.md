@@ -1,4 +1,4 @@
-# Sports
+# Stocks
 
 Welcome to the Stocks project, this project lays out the template for stock predictions.
 
