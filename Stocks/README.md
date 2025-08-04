@@ -78,24 +78,24 @@ The response should be formatted as follows.
 ```json
 {
   "4_hours": {
-    "price_prediction": 61000.00,
+    "price_prediction": 281.00,
     "price_up_down": "up",
     "percentage_change": 1.67
   },
   "24_hours": {
-    "price_prediction": 62000.00,
+    "price_prediction": 282.43,
     "price_up_down": "up",
     "percentage_change": 3.33
   },
   "2_days": {
-    "price_prediction": 63000.00,
-    "price_up_down": "up",
-    "percentage_change": 5.00
+    "price_prediction": 280.97,
+    "price_up_down": "down",
+    "percentage_change": -0.86
   },
   "7_days": {
-    "price_prediction": 65000.00,
+    "price_prediction": 284.0,
     "price_up_down": "up",
-    "percentage_change": 8.33
+    "percentage_change": 6.93
   }
 }
 
