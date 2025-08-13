@@ -92,12 +92,12 @@ class PredictionAPI:
                 "model_loaded": self.ai_model.model is not None,
                 "last_trained_at": self.ai_model.last_trained_at,
             }
-        
+
         @self.app.get("/documentation")
         async def get_documentation():
             # Reads the documentation.json file and returns it on this endpoint
             with open("documentation.json", "r") as file:
-                documentation = json.load(file) 
+                documentation = json.load(file)
             return JSONResponse(content=documentation)
 
     def get_app(self):

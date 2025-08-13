@@ -12,6 +12,7 @@ class PredictionRequest(BaseModel):
     date: str = Field(..., description="Date of the prediction in YYYY-MM-DD format")
     current_price: float = Field(..., description="Current price of the stock")
 
+
 # Lets correct the schema for the prediction response.
 # here is a sample response structure based on the provided code snippet:
 # sample_response = {
@@ -20,7 +21,7 @@ class PredictionRequest(BaseModel):
 #     {
 #       "name":"Apple GPT", # Name your name
 #       "description":"Stock price forecast with 7-day horizon.", # Describe your model
-#       "horizon":7, 
+#       "horizon":7,
 #       "frequency":1,
 #       "stock_name":"S&P 500", # Which index/stock are you predicting?
 #       "forecasts":[
@@ -30,21 +31,32 @@ class PredictionRequest(BaseModel):
 #   ]
 # }
 
+
 class Forecast(BaseModel):
     timestamp: str = Field(..., description="Timestamp of the forecast")
     forecast_index: int = Field(..., description="Index of the forecast")
     price: float = Field(..., description="Predicted stock price")
-    pct_change: float = Field(..., description="Percentage change from the previous price")
+    pct_change: float = Field(
+        ..., description="Percentage change from the previous price"
+    )
     direction: str = Field(..., description="Direction of the price change (UP/DOWN)")
 
+
 class Prediction(BaseModel):
-        name: str = Field(..., description="Name of the model")
-        description: str = Field(..., description="Description of the model")
-        horizon: int = Field(..., description="Forecast horizon in days")
-        frequency: int = Field(..., description="Frequency of predictions")
-        stock_name: str = Field(..., description="Name of the stock or index being predicted")
-        forecasts: list[Forecast] = Field(..., description="List of forecasted prices with timestamps and changes")
+    name: str = Field(..., description="Name of the model")
+    description: str = Field(..., description="Description of the model")
+    horizon: int = Field(..., description="Forecast horizon in days")
+    frequency: int = Field(..., description="Frequency of predictions")
+    stock_name: str = Field(
+        ..., description="Name of the stock or index being predicted"
+    )
+    forecasts: list[Forecast] = Field(
+        ..., description="List of forecasted prices with timestamps and changes"
+    )
+
 
 class PredictionResponse(BaseModel):
     prediction_timestamp: str = Field(..., description="Timestamp of the prediction")
-    predictions: list[Prediction] = Field(..., description="List of predictions with details")
+    predictions: list[Prediction] = Field(
+        ..., description="List of predictions with details"
+    )
