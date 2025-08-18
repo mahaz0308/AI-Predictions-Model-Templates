@@ -1,109 +1,71 @@
-# Sports
+Cricket Match Outcome Predictor
+This project is a machine learning-based application that predicts the winning team of a cricket match. The model is trained on the CWC2023.csv dataset and uses a robust prediction system with multiple fallback mechanisms to provide a result even for match-ups not seen in the training data.
 
-Welcome to the Sports project, this project lays out the template for sports predictions.
+Features
+Trained Model Prediction: Uses a RandomForestClassifier model to predict the winner based on historical data.
 
-## Prerequisites
+Intelligent Fallback System: If a specific match-up (teams, stadium) is not in the training data, the model uses a fallback method.
 
-Before getting started, make sure your system meets these requirements:
+Performance-Based Fallback: The fallback logic considers:
 
-### Required Software
-* **Python:** Version 3.10 or higher - [Download Python](https://www.python.org/downloads/)
-* **Visual Studio Code:** Latest version - [Download VS Code](https://code.visualstudio.com/download)
+Team performance at the specific stadium.
 
-### Docker Desktop Requirements
-* **Windows:**
-  - Windows 10/11 64-bit: Pro, Enterprise, or Education (Build 16299 or later)
-  - WSL 2 feature enabled
-  - 4GB system RAM minimum
-  - BIOS-level hardware virtualization enabled
-  - [Download Docker Desktop for Windows](https://docs.docker.com/desktop/windows/install/)
+Head-to-head records between the two teams.
 
-* **macOS:**
-  - macOS version 11 or newer (Intel or Apple Silicon)
-  - At least 4GB of RAM
-  - [Download Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)
+Tie-Breaker Logic: In the case of a tie in the fallback analysis, the model uses the overall tournament win rate of each team to determine a winner.
 
-* **Linux:**
-  - 64-bit kernel and CPU support for virtualization
-  - systemd init system
-  - At least 4GB of RAM
-  - [Download Docker Desktop for Linux](https://docs.docker.com/desktop/linux/install/)
+Accuracy Display: The model's accuracy on the test data is calculated and displayed every time the prediction script is run.
 
-### Fire Up Your Model with Docker!
-Time to unleash your model! In your *same* terminal, run these commands:
+Input Validation: The application provides informative error messages for invalid user inputs, such as misspellings of team or stadium names.
 
-1. **Change directory into the sports template:** `cd Sports` 
-1. **Build the magic image:** `docker build -t sports-predictor .`
-2. **Run your new image:** `docker run -p 8000:8000 sports-predictor`
+Project Structure
+data_preprocessing.py: Handles the loading, cleaning, and preprocessing of the raw dataset.
 
-*Keep this terminal running! It's busy making predictions!*
+model_training.py: The script to train the machine learning model (RandomForestClassifier), calculate its accuracy, and save both to files (.pkl and .txt).
 
----
+prediction.py: Contains the core prediction logic, including the primary model and the advanced fallback system.
 
-### Is It Working? Let's Find Out!
+main.py: The main entry point for the application, which interacts with the user and displays the final prediction.
 
-Open your favorite web browser and navigate to: `http://localhost:8000/health`
+CWC2023.csv: The dataset used to train the model.
 
-If all is well, you'll see a happy message like this:
+requirements.txt: Lists all the necessary Python dependencies for the project.
 
-```json
-{
-  "status": "healthy",
-  "model_loaded": true,
-  "last_trained_at": "2025-07-25 09:33:58"
-}
-```
+cricket_model.pkl: The trained machine learning model saved to disk.
 
-You can also see the docs at: `http://localhost:8000/docs`
+model_accuracy.txt: A text file containing the model's accuracy score.
 
-Now, let's make some predictions!
+Setup and Usage
+Follow these steps to set up and run the project on your local machine.
 
-1.  In Visual Studio Code, go to the top right of your terminal, click the `+` dropdown, and select `Git Bash`. This will open a *second* terminal.
-2.  In this new terminal, paste and run the following command:
+Step 1: Install Dependencies
+First, navigate to the cricket_prediction directory and install the required Python libraries using pip.
 
-    ```bash
-    curl -X POST "http://localhost:8000/predict" \
-         -H "Content-Type: application/json" \
-         -d '{
-             "home_team": "Lions",
-             "away_team": "Sharks",
-             "home_team_odds_avg": 1.75,
-             "away_team_odds_avg": 2.20
-           }'
-    ```
+pip install -r requirements.txt
 
-    Get ready for your first prediction! How exciting is that?!
+Step 2: Train the Model
+Run the model_training.py script to train the model and save it to a file. This step must be completed before you can make any predictions.
 
----
+python model_training.py
 
-### Craft Your Own Prediction Masterpiece!
+Step 3: Run the Prediction Application
+Now you can run the main application and enter the details of the match you want to predict.
 
-This is where the real fun begins! You get to customize how your model thinks.
+python main.py
 
-* Open `src/models.py`. This is your canvas! Update the logic in the predict method to reflect your brilliant prediction strategy.
+Example Output
+Here is an example of a predicted output, demonstrating the fallback logic.
 
-Made changes? Awesome! Here's how to see them in action:
-
-1.  Go back to your *first* terminal (where the model is running) and press `Ctrl + c` to stop it.
-2.  Simply repeat the "Fire Up" and "Is It Working" steps above. Easy peasy!
-
-**Congratulations, you are now a bona fide model builder!**
-
----
-
-### Peek Under the Hood: Project Files Explained
-
-Curious about what makes the Sports model tick? Here's a quick tour:
-
-* **`main.py`**: This is the heart of your project, the starting point for your API and where your model gets called.
-* **`src/api.py`**: Defines how your model talks to the world (the API structure).
-* **`src/models.py`**: **This is where YOUR custom prediction logic lives!** Get creative here.
-* **`src/schemas.py`**: Lays out the data structures the API expects and provides.
-
-And the rest:
-
-* **`.dockerignore`**: Tells Docker what files to skip. You probably won't need to touch this often.
-* **`.gitignore`**: Tells Git what files to ignore. No need to edit unless you add new files you don't want tracked.
-* **`LICENSE`**: The project's license.
-* **`README.md`**: What you're reading right now!
-* **`requirements.txt`**: Lets Docker know which Python libraries your project needs. **Important! If you add new Python libraries to your custom logic, remember to add them here!**
+Cricket Match Outcome Predictor
+Model Accuracy: 0.88
+Enter Toss Winner Team: South Africa
+Enter Stadium: Eden Gardens
+Enter Team A: Australia
+Enter Team B: South Africa
+Enter Toss Decision (Bat/Field): Bat
+This match-up has not been seen before. Using fallback prediction method.
+Predicted Match Winner: Predicted Match Winner (Fallback): South Africa
+Reasoning:
+- No historical data for either team at this stadium.
+- No historical head-to-head data for these teams.
+- Tie-breaker: South Africa has a better overall tournament win rate (0.70) than Australia (0.55).

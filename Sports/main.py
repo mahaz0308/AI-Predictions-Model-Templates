@@ -1,11 +1,21 @@
-import uvicorn
-from src.api import SportsPredictionAPI
+from prediction import predict_match, get_accuracy
 
-# Initialize the SportsPredictionAPI class and get the FastAPI app instance
-api_instance = SportsPredictionAPI()
-app = api_instance.get_app()
+def main():
+    print("Cricket Match Outcome Predictor")
+
+    accuracy = get_accuracy()
+    if accuracy:
+        print(f"Model Accuracy: {accuracy:.2f}")
+    
+    toss_winner = input("Enter Toss Winner Team: ")
+    stadium = input("Enter Stadium: ")
+    team_a = input("Enter Team A: ")
+    team_b = input("Enter Team B: ")
+    toss_decision = input("Enter Toss Decision (Bat/Field): ")
+
+    result = predict_match(toss_winner, stadium, team_a, team_b, toss_decision)
+
+    print(f"Predicted Match Winner: {result}")
 
 if __name__ == "__main__":
-    # This block is typically for local development when running `python main.py`
-    # In a Docker container, uvicorn will directly import `app`
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    main()
