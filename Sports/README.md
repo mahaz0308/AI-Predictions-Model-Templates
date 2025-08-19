@@ -1,60 +1,86 @@
-Cricket Match Outcome Predictor
-This project is a machine learning-based application that predicts the winning team of a cricket match. The model is trained on the CWC2023.csv dataset and uses a robust prediction system with multiple fallback mechanisms to provide a result even for match-ups not seen in the training data.
+# Sports
 
-Features
-Trained Model Prediction: Uses a RandomForestClassifier model to predict the winner based on historical data.
+Welcome to the Sports project, this project lays out the template for sports predictions.
 
-Intelligent Fallback System: If a specific match-up (teams, stadium) is not in the training data, the model uses a fallback method.
+## Prerequisites
 
-Performance-Based Fallback: The fallback logic considers:
+Before getting started, make sure your system meets these requirements:
 
-Team performance at the specific stadium.
+### Required Software
+* **Python:** Version 3.10 or higher - [Download Python](https://www.python.org/downloads/)
+* **Visual Studio Code:** Latest version - [Download VS Code](https://code.visualstudio.com/download)
 
-Head-to-head records between the two teams.
+### Docker Desktop Requirements
+* **Windows:**
+  - Windows 10/11 64-bit: Pro, Enterprise, or Education (Build 16299 or later)
+  - WSL 2 feature enabled
+  - 4GB system RAM minimum
+  - BIOS-level hardware virtualization enabled
+  - [Download Docker Desktop for Windows](https://docs.docker.com/desktop/windows/install/)
 
-Tie-Breaker Logic: In the case of a tie in the fallback analysis, the model uses the overall tournament win rate of each team to determine a winner.
+* **macOS:**
+  - macOS version 11 or newer (Intel or Apple Silicon)
+  - At least 4GB of RAM
+  - [Download Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)
 
-Accuracy Display: The model's accuracy on the test data is calculated and displayed every time the prediction script is run.
+* **Linux:**
+  - 64-bit kernel and CPU support for virtualization
+  - systemd init system
+  - At least 4GB of RAM
+  - [Download Docker Desktop for Linux](https://docs.docker.com/desktop/linux/install/)
 
-Input Validation: The application provides informative error messages for invalid user inputs, such as misspellings of team or stadium names.
+### Fire Up Your Model with Docker!
+Time to unleash your model! In your *same* terminal, run these commands:
 
-Project Structure
-data_preprocessing.py: Handles the loading, cleaning, and preprocessing of the raw dataset.
+1. **Change directory into the sports template:** `cd Sports` 
+1. **Build the magic image:** `docker build -t sports-predictor .`
+2. **Run your new image:** `docker run -p 8000:8000 sports-predictor`
 
-model_training.py: The script to train the machine learning model (RandomForestClassifier), calculate its accuracy, and save both to files (.pkl and .txt).
+*Keep this terminal running! It's busy making predictions!*
 
-prediction.py: Contains the core prediction logic, including the primary model and the advanced fallback system.
+---
 
-main.py: The main entry point for the application, which interacts with the user and displays the final prediction.
+### Is It Working? Let's Find Out!
 
-CWC2023.csv: The dataset used to train the model.
+Open your favorite web browser and navigate to: `http://localhost:8000/health`
 
-requirements.txt: Lists all the necessary Python dependencies for the project.
+If all is well, you'll see a happy message like this:
 
-cricket_model.pkl: The trained machine learning model saved to disk.
+```json
+{
+  "status": "healthy",
+  "model_loaded": true,
+  "last_trained_at": "2025-07-25 09:33:58"
+}
+```
 
-model_accuracy.txt: A text file containing the model's accuracy score.
+You can also see the docs at: `http://localhost:8000/docs`
 
-Setup and Usage
-Follow these steps to set up and run the project on your local machine.
+Now, let's make some predictions!
 
-Step 1: Install Dependencies
-First, navigate to the cricket_prediction directory and install the required Python libraries using pip.
+1.  In Visual Studio Code, go to the top right of your terminal, click the `+` dropdown, and select `Git Bash`. This will open a *second* terminal.
+2.  In this new terminal, paste and run the following command:
 
-pip install -r requirements.txt
+    ```bash
+    curl -X POST "http://localhost:8000/predict" \
+         -H "Content-Type: application/json" \
+         -d '{
+             "home_team": "Lions",
+             "away_team": "Sharks",
+             "home_team_odds_avg": 1.75,
+             "away_team_odds_avg": 2.20
+           }'
+    ```
 
-Step 2: Train the Model
-Run the model_training.py script to train the model and save it to a file. This step must be completed before you can make any predictions.
+    Get ready for your first prediction! How exciting is that?!
 
-python model_training.py
+---
 
-Step 3: Run the Prediction Application
-Now you can run the main application and enter the details of the match you want to predict.
+### Craft Your Own Prediction Masterpiece!
 
-python main.py
+This is where the real fun begins! You get to customize how your model thinks.
 
-Example Output
-Here is an example of a predicted output, demonstrating the fallback logic.
+* Open `src/models.py`. This is your canvas! Update the logic in the predict method to reflect your brilliant prediction strategy.
 
 Made changes? Awesome! Here's how to see them in action:
 
@@ -81,4 +107,3 @@ And the rest:
 * **`LICENSE`**: The project's license.
 * **`README.md`**: What you're reading right now!
 * **`requirements.txt`**: Lets Docker know which Python libraries your project needs. **Important! If you add new Python libraries to your custom logic, remember to add them here!**
-
