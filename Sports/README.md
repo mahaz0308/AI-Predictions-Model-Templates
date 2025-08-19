@@ -56,16 +56,29 @@ python main.py
 Example Output
 Here is an example of a predicted output, demonstrating the fallback logic.
 
-Cricket Match Outcome Predictor
-Model Accuracy: 0.88
-Enter Toss Winner Team: South Africa
-Enter Stadium: Eden Gardens
-Enter Team A: Australia
-Enter Team B: South Africa
-Enter Toss Decision (Bat/Field): Bat
-This match-up has not been seen before. Using fallback prediction method.
-Predicted Match Winner: Predicted Match Winner (Fallback): South Africa
-Reasoning:
-- No historical data for either team at this stadium.
-- No historical head-to-head data for these teams.
-- Tie-breaker: South Africa has a better overall tournament win rate (0.70) than Australia (0.55).
+Made changes? Awesome! Here's how to see them in action:
+
+1.  Go back to your *first* terminal (where the model is running) and press `Ctrl + c` to stop it.
+2.  Simply repeat the "Fire Up" and "Is It Working" steps above. Easy peasy!
+
+**Congratulations, you are now a bona fide model builder!**
+
+---
+
+### Peek Under the Hood: Project Files Explained
+
+Curious about what makes the Sports model tick? Here's a quick tour:
+
+* **`main.py`**: This is the heart of your project, the starting point for your API and where your model gets called.
+* **`src/api.py`**: Defines how your model talks to the world (the API structure).
+* **`src/models.py`**: **This is where YOUR custom prediction logic lives!** Get creative here.
+* **`src/schemas.py`**: Lays out the data structures the API expects and provides.
+
+And the rest:
+
+* **`.dockerignore`**: Tells Docker what files to skip. You probably won't need to touch this often.
+* **`.gitignore`**: Tells Git what files to ignore. No need to edit unless you add new files you don't want tracked.
+* **`LICENSE`**: The project's license.
+* **`README.md`**: What you're reading right now!
+* **`requirements.txt`**: Lets Docker know which Python libraries your project needs. **Important! If you add new Python libraries to your custom logic, remember to add them here!**
+
