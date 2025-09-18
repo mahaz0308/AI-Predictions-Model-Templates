@@ -1,9 +1,8 @@
 {
     "category": "Sports",
     "subcategory": "Soccer",
-
-    "author": "YOUR NAME",
-    "model_name": "YOUR MODEL NAME",
-    "model_description": "A brief description of your model.",
+    "author": "YOUR_NAME_HERE",
+    "model_name": "Soccer Win Predictor",
+    "model_description": "LightGBM model predicting home team win probability in soccer matches using betting odds, Elo ratings, and head-to-head features. Test accuracy: 96.27%, weighted F1: 0.9635.",
     "version": "1.0"
 }

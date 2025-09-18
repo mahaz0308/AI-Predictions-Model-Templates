@@ -1,11 +1,16 @@
-# Use a slim Python base image for smaller size
-FROM python:3.10-slim-buster
+# Use a slim Python base image (Bullseye for active support)
+FROM python:3.12
 
 # Set the working directory in the container
 WORKDIR /app
 
+# Install system dependencies for lightgbm (libgomp1)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libgomp1 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy the requirements file and install dependencies
-# This step is cached if requirements.txt doesn't change
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -16,6 +21,4 @@ COPY . .
 EXPOSE 8000
 
 # Command to run the application using Uvicorn
-# The --host 0.0.0.0 makes the server accessible from outside the container
-# The --workers parameter can be adjusted based on CPU cores for production
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
