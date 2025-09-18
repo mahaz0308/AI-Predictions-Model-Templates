@@ -1,8 +1,9 @@
 {
-    "category": "Sports",
-    "subcategory": "Soccer",
-    "author": "YOUR_NAME_HERE",
-    "model_name": "Soccer Win Predictor",
-    "model_description": "LightGBM model predicting home team win probability in soccer matches using betting odds, Elo ratings, and head-to-head features. Test accuracy: 96.27%, weighted F1: 0.9635.",
-    "version": "1.0"
+  "account_id": "mahaz0308"
+  "model_name": "soccer_match_outcome_predictor",
+  "version": "1.0",
+  "submission_date": "2025-09-18",
+  "author": "Mahaz",
+  "contact_email": "mahazabbasi070@gmail.com",
+  "description": "A LightGBM binary classification model to predict if the home team wins a soccer match (1) or not (0, including draws or away wins), based on historical data from various leagues."
 }

@@ -1,109 +1,67 @@
-# Sports
+# Soccer Match Outcome Predictor Model
 
-Welcome to the Sports project, this project lays out the template for sports predictions.
+## Overview
+This is a binary classification model built using LightGBM to predict soccer (football) match outcomes. It predicts whether the home team wins (label: 1) or not (label: 0, which includes draws or away wins). The model was trained with Optuna for hyperparameter optimization to maximize the F1 score.
 
-## Prerequisites
+## Training Data
+- **Sport and Leagues**: Soccer (football) from multiple European leagues, including:
+  - Swiss Super League (league_id: 24558, primary focus with most data).
+  - English Premier League (league_id: 1729).
+  - Italian Serie A (league_id: 10257).
+  - Spanish La Liga (league_id: 21518).
+  - Others like Dutch Eredivisie (league_id: 13274) and Portuguese Primeira Liga (league_id: 19694).
+- **Dataset**: Sourced from `features.csv` (~10,000+ rows of historical matches from seasons 2008/2009 to 2015/2016).
+- **Features** (20 in total, as listed in `preprocessing.json`):
+  - Match metadata: league_id, home_team_goal, away_team_goal.
+  - Betting odds: B365H, B365D, B365A, and derived probabilities (p_b365_h, p_b365_d, p_b365_a).
+  - Team stats: home_goals_scored, home_goals_conceded, home_win_rate, away_goals_scored, away_goals_conceded, away_win_rate.
+  - Ratings: elo_home_pre, elo_away_pre.
+  - Head-to-head: h2h_home_wins_last5, h2h_draws_last5, h2h_away_wins_last5.
+- **Target**: The "result" column, remapped from original values (1: home win → 1; 0: draw or 2: away win → 0).
+- **Preprocessing**:
+  - Dropped irrelevant columns: date, season, home_team_api_id, away_team_api_id.
+  - Filled missing numeric values with means.
+  - Ensured float32 types.
+  - Used sample weights for class balancing.
+- **Training Process** (from `model.py`):
+  - Split: 80/20 train/test with stratification.
+  - Optimized with Optuna (40 trials) for params like num_leaves, max_depth, etc.
+  - Final model trained on full train set for 200 rounds.
+  - Evaluation: F1 score on test set; full report in console output during training.
 
-Before getting started, make sure your system meets these requirements:
+## Deployment Considerations
+- **Input Requirements**:
+  - Data must match the schema in `features.csv` or `sample_test.csv`.
+  - Use `preprocess_input` function from `predict.py` to prepare inputs: drops unused columns, reorders features per `preprocessing.json`, fills NaNs with means, and converts to float32.
+  - Example input: A CSV or DataFrame with columns like league_id, B365H, elo_home_pre, etc. (no target needed for prediction).
+- **Dependencies**:
+  - Python 3.x.
+  - Libraries: pandas, numpy, lightgbm, json (for loading preprocessing.json).
+  - No additional installations needed beyond these—install via `pip install pandas numpy lightgbm`.
+- **Usage**:
+  - Load model: `model = lgb.Booster(model_file="best_model.txt")`.
+  - Predict: Use `predict` function in `predict.py`—returns binary predictions (1/0) and probabilities.
+  - Example: Run `python predict.py` with `sample_test.csv` to see outputs.
+  - Testing: Use `test.py` on `features.csv` to generate `predictions.csv` and evaluate performance.
+- **Output**:
+  - Binary: 1 (home win) if probability > 0.5, else 0 (draw or away win).
+  - Probabilities: Raw sigmoid outputs from the model.
+- **Limitations and Considerations**:
+  - Data is historical (up to 2016), so retrain with recent data for better accuracy on current matches.
+  - Assumes features like Elo ratings and head-to-head are pre-computed— you'll need a feature engineering pipeline for live data.
+  - Handle class imbalance in production (model uses weights, but monitor).
+  - No real-time dependencies (e.g., no API calls), but for scalability, deploy in a container (e.g., Docker) or cloud service.
+  - Performance: Check `test.py` output for classification report (e.g., precision, recall, F1).
+  - If deploying to a server, ensure file paths for `best_model.txt` and `preprocessing.json` are correct.
 
-### Required Software
-* **Python:** Version 3.10 or higher - [Download Python](https://www.python.org/downloads/)
-* **Visual Studio Code:** Latest version - [Download VS Code](https://code.visualstudio.com/download)
+## Files Included
+- `model.py`: Training script.
+- `predict.py`: Inference script.
+- `test.py`: Evaluation script on full data.
+- `best_model.txt`: Trained LightGBM model.
+- `preprocessing.json`: Column info for input processing.
+- `features.csv`: Full training dataset.
+- `sample_test.csv`: Sample inputs for testing.
+- `predictions.csv`: Example outputs from test.py.
 
-### Docker Desktop Requirements
-* **Windows:**
-  - Windows 10/11 64-bit: Pro, Enterprise, or Education (Build 16299 or later)
-  - WSL 2 feature enabled
-  - 4GB system RAM minimum
-  - BIOS-level hardware virtualization enabled
-  - [Download Docker Desktop for Windows](https://docs.docker.com/desktop/windows/install/)
-
-* **macOS:**
-  - macOS version 11 or newer (Intel or Apple Silicon)
-  - At least 4GB of RAM
-  - [Download Docker Desktop for Mac](https://docs.docker.com/desktop/mac/install/)
-
-* **Linux:**
-  - 64-bit kernel and CPU support for virtualization
-  - systemd init system
-  - At least 4GB of RAM
-  - [Download Docker Desktop for Linux](https://docs.docker.com/desktop/linux/install/)
-
-### Fire Up Your Model with Docker!
-Time to unleash your model! In your *same* terminal, run these commands:
-
-1. **Change directory into the sports template:** `cd Sports` 
-1. **Build the magic image:** `docker build -t sports-predictor .`
-2. **Run your new image:** `docker run -p 8000:8000 sports-predictor`
-
-*Keep this terminal running! It's busy making predictions!*
-
----
-
-### Is It Working? Let's Find Out!
-
-Open your favorite web browser and navigate to: `http://localhost:8000/health`
-
-If all is well, you'll see a happy message like this:
-
-```json
-{
-  "status": "healthy",
-  "model_loaded": true,
-  "last_trained_at": "2025-07-25 09:33:58"
-}
-```
-
-You can also see the docs at: `http://localhost:8000/docs`
-
-Now, let's make some predictions!
-
-1.  In Visual Studio Code, go to the top right of your terminal, click the `+` dropdown, and select `Git Bash`. This will open a *second* terminal.
-2.  In this new terminal, paste and run the following command:
-
-    ```bash
-    curl -X POST "http://localhost:8000/predict" \
-         -H "Content-Type: application/json" \
-         -d '{
-             "home_team": "Lions",
-             "away_team": "Sharks",
-             "home_team_odds_avg": 1.75,
-             "away_team_odds_avg": 2.20
-           }'
-    ```
-
-    Get ready for your first prediction! How exciting is that?!
-
----
-
-### Craft Your Own Prediction Masterpiece!
-
-This is where the real fun begins! You get to customize how your model thinks.
-
-* Open `src/models.py`. This is your canvas! Update the logic in the predict method to reflect your brilliant prediction strategy.
-
-Made changes? Awesome! Here's how to see them in action:
-
-1.  Go back to your *first* terminal (where the model is running) and press `Ctrl + c` to stop it.
-2.  Simply repeat the "Fire Up" and "Is It Working" steps above. Easy peasy!
-
-**Congratulations, you are now a bona fide model builder!**
-
----
-
-### Peek Under the Hood: Project Files Explained
-
-Curious about what makes the Sports model tick? Here's a quick tour:
-
-* **`main.py`**: This is the heart of your project, the starting point for your API and where your model gets called.
-* **`src/api.py`**: Defines how your model talks to the world (the API structure).
-* **`src/models.py`**: **This is where YOUR custom prediction logic lives!** Get creative here.
-* **`src/schemas.py`**: Lays out the data structures the API expects and provides.
-
-And the rest:
-
-* **`.dockerignore`**: Tells Docker what files to skip. You probably won't need to touch this often.
-* **`.gitignore`**: Tells Git what files to ignore. No need to edit unless you add new files you don't want tracked.
-* **`LICENSE`**: The project's license.
-* **`README.md`**: What you're reading right now!
-* **`requirements.txt`**: Lets Docker know which Python libraries your project needs. **Important! If you add new Python libraries to your custom logic, remember to add them here!**
+For questions, contact me at [mahazabbasi070@gmail.com].
